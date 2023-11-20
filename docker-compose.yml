@@ -6,20 +6,20 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
-      - SUPERUSER_EMAIL=
-      - SUPERUSER_PASSWORD=
-      - ALLOWED_HOST=
-      - DB_NAME=
-      - DB_USER=
-      - DB_PASSWORD=
-      - DB_HOST=
+      - TZ=America/New_York
+      - SUPERUSER_EMAIL=${SUPERUSER_EMAIL}
+      - SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
+      - ALLOWED_HOST=${ALLOWED_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=postgress
       - DB_PORT=5432
-      - REDIS_HOST=
-      - REDIS_PORT=
-      - REDIS_PASSWORD=
-      - REDIS_DB_TASK=
-      - REDIS_DB_CACHE=
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=''
+      - REDIS_DB_TASK=0
+      - REDIS_DB_CACHE=1
       - BASE_PATH= #optional
       - REMOTE_AUTH_ENABLED= #optional
       - REMOTE_AUTH_BACKEND= #optional
@@ -39,9 +39,9 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_DB: 
-      POSTGRES_USER:
-      POSTGRES_PASSWORD: example
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - ${VOLUMEPATH}/postress/data:/var/lib/postgresql/data 
   redis:
