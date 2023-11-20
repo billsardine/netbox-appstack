@@ -4,8 +4,8 @@ services:
     image: lscr.io/linuxserver/netbox:latest
     container_name: netbox
     environment:
-      - PUID=1000
-      - PGID=1000
+#      - PUID=1000
+#      - PGID=1000
       - TZ=America/New_York
       - SUPERUSER_EMAIL=${SUPERUSER_EMAIL}
       - SUPERUSER_PASSWORD=${SUPERUSER_PASSWORD}
@@ -28,7 +28,7 @@ services:
       - REMOTE_AUTH_DEFAULT_GROUPS= #optional
       - REMOTE_AUTH_DEFAULT_PERMISSIONS= #optional
     volumes:
-      - ${VOLUMEPATH}/netbox/config:/config
+      - ./netbox/config:/config
     ports:
       - 8000:8000
     restart: unless-stopped
@@ -43,8 +43,10 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - ${VOLUMEPATH}/postress/data:/var/lib/postgresql/data 
+      - ./postress/data:/var/lib/postgresql/data 
   redis:
     image: 'redislabs/redismod'
+    restart: always
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_PASSWORD"
     volumes:
-      - ${VOLUMEPATH}/redis/data:/data
+      - ./redis/data:/data
